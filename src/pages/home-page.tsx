@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { EventCard } from '../components/event-cars.component'
-import { useGetEventsQuery } from '../api/events'
+import { EventCard } from '../modules/events/components/event-cars.component'
+import { useGetEventsQuery } from '../modules/events/api/events'
 import { Layout } from '../components/layout-component'
 
 interface HomeProps {}

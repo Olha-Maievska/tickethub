@@ -1,5 +1,8 @@
 import { FC } from 'react'
-import { useGetSingleEventQuery, useLazyGetSectorsQuery } from '../api/events'
+import {
+  useGetSingleEventQuery,
+  useLazyGetSectorsQuery,
+} from '../modules/events/api/events'
 import { useParams } from 'react-router-dom'
 import { Layout } from '../components/layout-component'
 
