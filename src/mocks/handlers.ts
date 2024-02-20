@@ -1,19 +1,7 @@
 import { HttpResponse, http } from 'msw'
 
-// interface HttpResponseType {
-//   id: number
-//   name: string
-//   thumb: string
-//   venue: VenueType
-// }
-
-// interface VenueType {
-//   id: number
-//   name: string
-// }
-
 export const handlers = [
-  http.get('/event', () => {
+  http.get('/api/event', () => {
     return HttpResponse.json([
       {
         id: 1,
