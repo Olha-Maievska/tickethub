@@ -17,3 +17,9 @@ body {
 .media-body {
   padding-left: 20px;
 }
+
+.loading {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
