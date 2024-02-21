@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { GetEventsResponseDto } from './dto/get-event-respose.dto'
 import { config } from '../../../core/config'
 import { GetSingleEventResponseDto } from './dto/get-single-event-respose-dto'
-import { Sector } from './dto/get-sectors-response-dto'
+import { GetSectorsResponseDto } from './dto/get-sectors-response-dto'
 
 export const eventsApi = createApi({
   reducerPath: 'eventsApi',
@@ -14,7 +14,7 @@ export const eventsApi = createApi({
     getSingleEvent: builder.query<GetSingleEventResponseDto, number>({
       query: (id) => `/api/event/${id}`,
     }),
-    getSectors: builder.query<Sector, number>({
+    getSectors: builder.query<GetSectorsResponseDto, number>({
       query: (id) => `/api/eventDate/${id}/sectors`,
     }),
   }),

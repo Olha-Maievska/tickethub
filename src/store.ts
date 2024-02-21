@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { eventsApi } from './modules/events/api/events'
+import { eventsApi } from './modules/events/api/repository'
+import { eventOrderReducer } from './modules/events/slice'
 
 export const store = configureStore({
   reducer: {
+    eventOrderReducer,
     [eventsApi.reducerPath]: eventsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

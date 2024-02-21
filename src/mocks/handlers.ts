@@ -184,7 +184,7 @@ export const handlers = [
     })
   }),
 
-  http.get('/api/eventDate/:dateId/sectors', () => {
+  http.get('/api/eventDate/:id/sectors', () => {
     return HttpResponse.json([
       {
         id: 2,
