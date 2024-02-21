@@ -1,1 +1,2 @@
 - Increate amount of events in dataset and infinite scroll to events list
+- Create mapper for small events objects
