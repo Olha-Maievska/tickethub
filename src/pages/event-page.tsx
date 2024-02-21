@@ -1,13 +1,18 @@
 import React, { FC } from 'react'
 import {
   useGetSingleEventQuery,
+  useLazyGetRatesQuery,
   useLazyGetSectorsQuery,
 } from '../modules/events/api/repository'
 import { useParams } from 'react-router-dom'
 import { Layout } from '../components/layout-component'
 import { useDispatch, useSelector } from 'react-redux'
-import { getSelectedDate, getSelectedSector } from '../modules/events/selectors'
-import { setEventDate, setSector } from '../modules/events/slice'
+import {
+  getSelectedDate,
+  getSelectedRate,
+  getSelectedSector,
+} from '../modules/events/selectors'
+import { setEventDate, setRate, setSector } from '../modules/events/slice'
 
 interface EventPageProps {}
 
@@ -15,10 +20,12 @@ export const EventPage: FC<EventPageProps> = () => {
   const params = useParams()
   const { data, isLoading } = useGetSingleEventQuery(Number(params.id))
   const [triggerSectorsQuery, sectors] = useLazyGetSectorsQuery()
+  const [triggerRatesQuery, rates] = useLazyGetRatesQuery()
 
   const disptach = useDispatch()
   const selectedDate = useSelector(getSelectedDate)
   const selectedSector = useSelector(getSelectedSector)
+  const selectedRate = useSelector(getSelectedRate)
 
   const handleDateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const eventId = Number(e.target.value)
@@ -32,6 +39,14 @@ export const EventPage: FC<EventPageProps> = () => {
   const handleSectorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const eventId = Number(e.target.value)
     disptach(setSector(eventId))
+
+    if (!eventId) return
+    triggerRatesQuery(eventId)
+  }
+
+  const handleRateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const eventId = Number(e.target.value)
+    disptach(setRate(eventId))
   }
 
   if (isLoading) {
@@ -59,7 +74,7 @@ export const EventPage: FC<EventPageProps> = () => {
               className="form-control"
               onChange={handleDateChange}
             >
-              <option value={'null'}>Date</option>
+              <option value="">Date</option>
               {data?.dates.map((d) => (
                 <option key={`event-date-${d.id}`} value={d.id}>
                   {d.date}
@@ -76,7 +91,7 @@ export const EventPage: FC<EventPageProps> = () => {
               disabled={!selectedDate}
               onChange={handleSectorChange}
             >
-              <option value={'null'}>Sector</option>
+              <option value="">Sector</option>
               {sectors.data?.map((s) => (
                 <option key={`sector-${s.id}`} value={s.id}>
                   {s.name}
@@ -87,10 +102,18 @@ export const EventPage: FC<EventPageProps> = () => {
         </div>
         <div className="col-sm-2">
           <div className="form-group">
-            <select name="" id="" className="form-control">
-              <option value="" disabled>
-                Rate
-              </option>
+            <select
+              value={String(selectedRate)}
+              className="form-control"
+              disabled={!selectedSector}
+              onChange={handleRateChange}
+            >
+              <option value="">Rate</option>
+              {rates.data?.map((r) => (
+                <option key={`rates-${r.id}`} value={r.id}>
+                  {r.name}
+                </option>
+              ))}
             </select>
           </div>
         </div>

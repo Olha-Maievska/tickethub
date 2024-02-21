@@ -5,3 +5,6 @@ export const getSelectedDate = (state: RootState) =>
 
 export const getSelectedSector = (state: RootState) =>
   state.eventOrderReducer.sector
+
+export const getSelectedRate = (state: RootState) =>
+  state.eventOrderReducer.rate

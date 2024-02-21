@@ -216,4 +216,26 @@ export const handlers = [
       },
     ])
   }),
+  http.get('/api/sectors/:sectorId/rates', () => {
+    return HttpResponse.json([
+      {
+        id: 1,
+        max: 4,
+        price: 931.0,
+        name: 'Jubilado',
+      },
+      {
+        id: 3,
+        max: 4,
+        price: 476.0,
+        name: 'Menor',
+      },
+      {
+        id: 2,
+        max: 4,
+        price: 640.0,
+        name: 'Adulto',
+      },
+    ])
+  }),
 ]
