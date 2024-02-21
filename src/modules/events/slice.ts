@@ -5,12 +5,14 @@ interface EventOrderState {
   date: number | null
   sector: number | null
   rate: number | null
+  quantity: number | null
 }
 
 const initialState: EventOrderState = {
   date: null,
   sector: null,
   rate: null,
+  quantity: null,
 }
 
 export const eventOrderSlice = createSlice({
@@ -26,9 +28,13 @@ export const eventOrderSlice = createSlice({
     setRate: (state, action: PayloadAction<number>) => {
       state.rate = action.payload
     },
+    setQty: (state, action: PayloadAction<number>) => {
+      state.quantity = action.payload
+    },
   },
 })
 
-export const { setEventDate, setSector, setRate } = eventOrderSlice.actions
+export const { setEventDate, setSector, setRate, setQty } =
+  eventOrderSlice.actions
 
 export const { reducer: eventOrderReducer } = eventOrderSlice

@@ -9,10 +9,16 @@ import { Layout } from '../components/layout-component'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   getSelectedDate,
+  getSelectedQty,
   getSelectedRate,
   getSelectedSector,
 } from '../modules/events/selectors'
-import { setEventDate, setRate, setSector } from '../modules/events/slice'
+import {
+  setEventDate,
+  setQty,
+  setRate,
+  setSector,
+} from '../modules/events/slice'
 
 interface EventPageProps {}
 
@@ -26,6 +32,7 @@ export const EventPage: FC<EventPageProps> = () => {
   const selectedDate = useSelector(getSelectedDate)
   const selectedSector = useSelector(getSelectedSector)
   const selectedRate = useSelector(getSelectedRate)
+  const selectedQty = useSelector(getSelectedQty)
 
   const handleDateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const eventId = Number(e.target.value)
@@ -47,6 +54,11 @@ export const EventPage: FC<EventPageProps> = () => {
   const handleRateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const eventId = Number(e.target.value)
     disptach(setRate(eventId))
+  }
+
+  const handleQtyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const qty = Number(e.target.value)
+    disptach(setQty(qty))
   }
 
   if (isLoading) {
@@ -119,18 +131,31 @@ export const EventPage: FC<EventPageProps> = () => {
         </div>
         <div className="col-sm-2">
           <div className="form-group">
-            <select name="" id="" className="form-control">
-              <option value="" disabled>
-                Quantity
-              </option>
+            <select
+              value={String(selectedQty)}
+              className="form-control"
+              disabled={!selectedRate}
+              onChange={handleQtyChange}
+            >
+              <option value="">Quantity</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
             </select>
           </div>
         </div>
         <div className="col-sm-2">
           {' '}
-          <a href="order.html" className="btn btn-primary btn-block">
+          <button
+            className="btn btn-primary btn-block"
+            disabled={
+              !selectedDate || !selectedSector || !selectedRate || !selectedQty
+            }
+          >
             BUY
-          </a>{' '}
+          </button>{' '}
         </div>
       </div>
       <hr />

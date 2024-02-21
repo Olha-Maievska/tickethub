@@ -8,3 +8,6 @@ export const getSelectedSector = (state: RootState) =>
 
 export const getSelectedRate = (state: RootState) =>
   state.eventOrderReducer.rate
+
+export const getSelectedQty = (state: RootState) =>
+  state.eventOrderReducer.quantity
