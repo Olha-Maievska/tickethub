@@ -1,10 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
+interface SliceRate {
+  id: number
+  max: number
+}
+
 interface EventOrderState {
   date: number | null
   sector: number | null
-  rate: number | null
+  rate: SliceRate | null
   quantity: number | null
 }
 
@@ -25,8 +30,8 @@ export const eventOrderSlice = createSlice({
     setSector: (state, action: PayloadAction<number>) => {
       state.sector = action.payload
     },
-    setRate: (state, action: PayloadAction<number>) => {
-      state.rate = action.payload
+    setRate: (state, action: PayloadAction<SliceRate>) => {
+      state.rate = { ...action.payload }
     },
     setQty: (state, action: PayloadAction<number>) => {
       state.quantity = action.payload
