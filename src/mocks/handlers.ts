@@ -2,7 +2,7 @@ import { HttpResponse, delay, http } from 'msw'
 
 export const handlers = [
   http.get('/api/event', async () => {
-    await delay(1000)
+    await delay(200)
     return HttpResponse.json([
       {
         id: 1,
@@ -105,7 +105,7 @@ export const handlers = [
   }),
 
   http.get('/api/event/:id', async () => {
-    await delay(1000)
+    await delay(200)
 
     return HttpResponse.json({
       id: 1,

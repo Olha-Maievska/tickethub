@@ -12,7 +12,7 @@ import {
   getSelectedSector,
 } from '../selectors'
 import { setEventDate, setQty, setRate, setSector } from '../slice'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 interface EventFormProps {}
 
@@ -21,6 +21,8 @@ export const EventForm: FC<EventFormProps> = () => {
   const [triggerRatesQuery, rates] = useLazyGetRatesQuery()
   const params = useParams()
   const { data } = useGetSingleEventQuery(Number(params.id))
+
+  const navigate = useNavigate()
 
   const disptach = useDispatch()
   const selectedDate = useSelector(getSelectedDate)
@@ -31,8 +33,13 @@ export const EventForm: FC<EventFormProps> = () => {
   const handleDateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const eventId = Number(e.target.value)
     disptach(setEventDate(eventId))
+    disptach(setSector(null))
+    disptach(setRate(null))
+    disptach(setQty(null))
 
-    if (!eventId) return
+    if (!eventId) {
+      return
+    }
 
     triggerSectorsQuery(eventId)
   }
@@ -40,8 +47,11 @@ export const EventForm: FC<EventFormProps> = () => {
   const handleSectorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const sectorId = Number(e.target.value)
     disptach(setSector(sectorId))
-
-    if (!sectorId) return
+    disptach(setRate(null))
+    disptach(setQty(null))
+    if (!sectorId) {
+      return
+    }
     triggerRatesQuery(sectorId)
   }
 
@@ -49,6 +59,10 @@ export const EventForm: FC<EventFormProps> = () => {
     const rateId = Number(e.target.value)
     const maxQty = rates.data?.find((rate) => rate.id === rateId)?.max || 0
     disptach(setRate({ id: rateId, max: maxQty }))
+    disptach(setQty(null))
+    if (!rateId) {
+      return
+    }
   }
 
   const handleQtyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -135,6 +149,7 @@ export const EventForm: FC<EventFormProps> = () => {
       <div className="col-sm-2">
         {' '}
         <button
+          onClick={() => navigate('/order')}
           className="btn btn-primary btn-block"
           disabled={
             !selectedDate || !selectedSector || !selectedRate || !selectedQty

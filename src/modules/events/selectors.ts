@@ -11,3 +11,5 @@ export const getSelectedRate = (state: RootState) =>
 
 export const getSelectedQty = (state: RootState) =>
   state.eventOrderReducer.quantity
+
+export const getEventID = (state: RootState) => state.eventOrderReducer.eventID
