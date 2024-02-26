@@ -99,7 +99,7 @@ export const EventForm: FC<EventFormProps> = () => {
           <select
             value={String(selectedSector)}
             className="form-control"
-            disabled={!selectedDate}
+            disabled={!selectedDate?.id}
             onChange={handleSectorChange}
           >
             <option value="">Sector</option>
@@ -116,7 +116,7 @@ export const EventForm: FC<EventFormProps> = () => {
           <select
             value={String(selectedRate?.id)}
             className="form-control"
-            disabled={!selectedSector}
+            disabled={!selectedSector?.id}
             onChange={handleRateChange}
           >
             <option value="">Rate</option>

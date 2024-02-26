@@ -40,7 +40,7 @@ export const OrderPage: FC<OrderPageProps> = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!selectedEventID || !selectedQty || !selectedRate) {
+    if (!selectedEventID || !selectedQty || !selectedRate?.id) {
       navigate('/', { replace: true })
     }
   }, [])

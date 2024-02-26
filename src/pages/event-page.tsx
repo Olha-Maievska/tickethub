@@ -4,21 +4,30 @@ import { useParams } from 'react-router-dom'
 import { Layout } from '../components/layout-component'
 import { EventForm } from '../modules/events/components/event-form-component'
 import { EventList } from '../components/event-list-components'
-import { useDispatch } from 'react-redux'
-import { setEventID } from '../modules/events/slice'
+import { useDispatch, useSelector } from 'react-redux'
+import { cleanEventOrderState, setEventID } from '../modules/events/slice'
+import { getEventID } from '../modules/events/selectors'
 
 interface EventPageProps {}
 
 export const EventPage: FC<EventPageProps> = () => {
   const params = useParams()
-  const { data, isLoading } = useGetSingleEventQuery(Number(params.id))
-  const eventID = Number(params.id)
-
   const dispatch = useDispatch()
 
+  const { data, isLoading } = useGetSingleEventQuery(Number(params.id))
+  const eventID = Number(params.id)
+  const choosenEventID = useSelector(getEventID)
+
   useEffect(() => {
-    dispatch(setEventID(eventID))
-  }, [])
+    const initEventPage = async () => {
+      if (eventID !== choosenEventID) {
+        await dispatch(cleanEventOrderState())
+        dispatch(setEventID(eventID))
+      }
+    }
+
+    initEventPage()
+  }, [params.id, choosenEventID])
 
   if (isLoading) {
     return (
