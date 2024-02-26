@@ -32,7 +32,8 @@ export const EventForm: FC<EventFormProps> = () => {
 
   const handleDateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const eventId = Number(e.target.value)
-    disptach(setEventDate(eventId))
+    const eventDate = e.target.options[e.target.selectedIndex].text
+    disptach(setEventDate({ id: eventId, date: eventDate }))
     disptach(setSector(null))
     disptach(setRate(null))
     disptach(setQty(null))
@@ -46,7 +47,8 @@ export const EventForm: FC<EventFormProps> = () => {
 
   const handleSectorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const sectorId = Number(e.target.value)
-    disptach(setSector(sectorId))
+    const sectorName = e.target.options[e.target.selectedIndex].text
+    disptach(setSector({ id: sectorId, name: sectorName }))
     disptach(setRate(null))
     disptach(setQty(null))
     if (!sectorId) {

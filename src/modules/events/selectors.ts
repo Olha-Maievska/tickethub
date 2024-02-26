@@ -13,3 +13,6 @@ export const getSelectedQty = (state: RootState) =>
   state.eventOrderReducer.quantity
 
 export const getEventID = (state: RootState) => state.eventOrderReducer.eventID
+
+export const getEventConfirmationCode = (state: RootState) =>
+  state.eventOrderReducer.eventConfirmation

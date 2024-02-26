@@ -1,13 +1,21 @@
 import { FC, useEffect } from 'react'
 import { Layout } from '../components/layout-component'
 import { z } from 'zod'
-import { useSelector } from 'react-redux'
-import { getEventID } from '../modules/events/selectors'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  getEventID,
+  getSelectedQty,
+  getSelectedRate,
+} from '../modules/events/selectors'
 import { useNavigate } from 'react-router-dom'
-import { useGetSingleEventQuery } from '../modules/events/api/repository'
+import {
+  useCreateOrderMutation,
+  useGetSingleEventQuery,
+} from '../modules/events/api/repository'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '../components/input-component'
+import { setConfirmationCode } from '../modules/events/slice'
 
 interface OrderPageProps {}
 
@@ -27,17 +35,20 @@ type DetailsShemValues = z.infer<typeof detailsShema>
 export const OrderPage: FC<OrderPageProps> = () => {
   const navigate = useNavigate()
   const selectedEventID = useSelector(getEventID)
+  const selectedRate = useSelector(getSelectedRate)
+  const selectedQty = useSelector(getSelectedQty)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!selectedEventID) {
-      // navigate('/', { replace: true })
+    if (!selectedEventID || !selectedQty || !selectedRate) {
+      navigate('/', { replace: true })
     }
   }, [])
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<DetailsShemValues>({
     defaultValues: {
       name: '',
@@ -55,9 +66,35 @@ export const OrderPage: FC<OrderPageProps> = () => {
   const event = useGetSingleEventQuery(selectedEventID || 0, {
     skip: !selectedEventID,
   })
+  const [createOrder] = useCreateOrderMutation()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const [firstName, ...restName] = data.name.split(' ')
+      const lastName = restName.join(' ')
+
+      const order = await createOrder({
+        rate: selectedRate!.id,
+        quantity: selectedQty!,
+        card: {
+          nameOnCard: data.cardholderName,
+          expires: data.cardExpiration,
+          number: data.cardNumber,
+          cvv: data.cardCvv,
+        },
+        user: {
+          firstName: firstName,
+          lastName: lastName,
+          email: data.email,
+          phone: data.phone,
+        },
+      }).unwrap()
+
+      dispatch(setConfirmationCode(order.confirmationCode))
+      navigate('/success', { replace: true })
+    } catch (error) {
+      console.log(error)
+    }
   })
 
   return (
@@ -146,6 +183,7 @@ export const OrderPage: FC<OrderPageProps> = () => {
             <button
               className="btn btn-default btn-block btn-lg"
               onClick={() => navigate(-1)}
+              disabled={isSubmitting}
             >
               Back
             </button>

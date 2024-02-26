@@ -3,11 +3,11 @@ import { ComponentProps, forwardRef } from 'react'
 
 interface InputProps {
   label: string
-  name: string
+  name?: string
   type?: ComponentProps<'input'>['type']
-  onChange: ComponentProps<'input'>['onChange']
-  onBlur: ComponentProps<'input'>['onBlur']
-  value: ComponentProps<'input'>['value']
+  onChange?: ComponentProps<'input'>['onChange']
+  onBlur?: ComponentProps<'input'>['onBlur']
+  value?: ComponentProps<'input'>['value']
   error?: string
 }
 

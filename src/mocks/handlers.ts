@@ -1,4 +1,9 @@
 import { HttpResponse, delay, http } from 'msw'
+import { CreateOrderResponseDto } from '../modules/events/api/dto/create-order-response.dto'
+
+type AddPAthParams = {
+  path: string
+}
 
 export const handlers = [
   http.get('/api/event', async () => {
@@ -238,4 +243,21 @@ export const handlers = [
       },
     ])
   }),
+  http.post<AddPAthParams, CreateOrderResponseDto>(
+    '/api/order',
+    async ({ request }) => {
+      const body = await request.json()
+      return HttpResponse.json({
+        id: 2,
+        quantity: body.quantity,
+        confirmationCode: '94O0PEHTEG',
+        rate: {
+          id: body.rate,
+        },
+        user: body.user,
+        card: body.card,
+        purchaseDate: '2018-04-27T17:22:31Z',
+      })
+    }
+  ),
 ]
