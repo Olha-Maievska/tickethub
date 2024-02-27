@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import {
   useGetSingleEventQuery,
   useLazyGetRatesQuery,
@@ -37,6 +37,8 @@ export const EventForm: FC<EventFormProps> = () => {
     disptach(setSector(null))
     disptach(setRate(null))
     disptach(setQty(null))
+    console.log(eventId)
+    console.log(eventDate)
 
     if (!eventId) {
       return
@@ -76,12 +78,17 @@ export const EventForm: FC<EventFormProps> = () => {
     return new Array(selectedRate?.max || 0).fill(0)
   }, [selectedRate?.max])
 
+  useEffect(() => {
+    triggerSectorsQuery(Number(selectedDate?.id), true)
+    triggerRatesQuery(Number(selectedSector?.id), true)
+  }, [])
+
   return (
     <div className="row">
       <div className="col-sm-3">
         <div className="form-group">
           <select
-            value={String(selectedDate)}
+            value={String(selectedDate?.id)}
             className="form-control"
             onChange={handleDateChange}
           >
@@ -97,9 +104,9 @@ export const EventForm: FC<EventFormProps> = () => {
       <div className="col-sm-3">
         <div className="form-group">
           <select
-            value={String(selectedSector)}
+            value={String(selectedSector?.id)}
             className="form-control"
-            disabled={!selectedDate?.id}
+            disabled={!selectedDate}
             onChange={handleSectorChange}
           >
             <option value="">Sector</option>

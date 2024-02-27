@@ -11,8 +11,8 @@ export const eventsApi = createApi({
   reducerPath: 'eventsApi',
   baseQuery: fetchBaseQuery({ baseUrl: config.api.host }),
   endpoints: (builder) => ({
-    getEvents: builder.query<GetEventsResponseDto, unknown>({
-      query: () => '/api/event',
+    getEvents: builder.query<GetEventsResponseDto, number>({
+      query: (page) => `/api/event?page=${page}`,
     }),
     getSingleEvent: builder.query<GetSingleEventResponseDto, number>({
       query: (id) => `/api/event/${id}`,
