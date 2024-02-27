@@ -5,7 +5,7 @@ interface Event {
   name: string
   description: string
   image: string
-  thubm: string
+  thumb: string
   similarEvents: SimilarEvent[]
   dates: Date[]
   venue: Venue2

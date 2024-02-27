@@ -127,7 +127,7 @@ export const handlers = [
       description:
         'Conseguí tus entradas para ser parte del final de una de las bandas más legendarias de la historia del Rock and Roll. Black Sabbath dará su ultimo concierto en Cordoba.',
       image: 'https://cdn.boletius.com/blacksabbath/co_cordoba_new.jpg',
-      thubm: 'https://cdn.boletius.com/blacksabbath/cordoba.jpg',
+      thumb: 'https://cdn.boletius.com/blacksabbath/cordoba.jpg',
       similarEvents: [
         {
           id: 1,

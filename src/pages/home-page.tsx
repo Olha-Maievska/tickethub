@@ -3,14 +3,14 @@ import { useGetEventsQuery } from '../modules/events/api/repository'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Layout } from '../components/layout-component'
 import { EventList } from '../components/event-list-components'
-import { Event } from '../modules/events/api/dto/get-event-respose.dto'
+import { InternalEvent } from '../modules/events/domain/event'
 
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = () => {
   const [page, setPage] = useState(0)
   const { data, isLoading } = useGetEventsQuery(page)
-  const [allEvents, setAllEvents] = useState<Event[]>([])
+  const [allEvents, setAllEvents] = useState<InternalEvent[]>([])
 
   useEffect(() => {
     if (data) {
