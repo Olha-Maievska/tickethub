@@ -39,7 +39,7 @@ export const Home: FC<HomeProps> = () => {
           dataLength={allEvents.length}
           next={handleNextPage}
           hasMore={page < 10}
-          loader={<h4>Loading...</h4>}
+          loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
           className="container-fluid"
           style={{ overflow: 'visible' }}
         >

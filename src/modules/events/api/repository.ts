@@ -30,7 +30,7 @@ export const eventsApi = createApi({
           description: response.description,
           image: response.image,
           thumb: response.thumb,
-          similarEvent: response.similarEvents.map<InternalEvent>((event) => ({
+          similarEvents: response.similarEvents.map<InternalEvent>((event) => ({
             id: event.id,
             thumb: event.thumb,
           })),
