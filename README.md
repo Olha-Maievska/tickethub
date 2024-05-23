@@ -1,1 +1,3 @@
-- Create mapper for small events objects
+## Tickethub - educational project
+
+
